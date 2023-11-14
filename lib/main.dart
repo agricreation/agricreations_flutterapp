@@ -30,15 +30,18 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    fetchHkrAgriTechData();
-    
-    final List<String> videoUrls = [
-      'https://youtu.be/qKYzsAVqaOc?si=IcDmB1kkm__5WmC0',
-      'https://youtu.be/auRbPM9IndM?si=Z50AlE5RNxFVAJWn',
-      'https://youtu.be/e5PLy52bUWw?si=6NCzJ1IWbO4IOuhV',
-      'https://youtu.be/O2K9rBAgE0k?si=RP8bLDdxdv3SUrTd',
-      'https://youtu.be/oXxQmeurDUM?si=TvicyMbf6xPSOd8T',
-    ];
+    // final List<String> videoUrls = [
+    //   'https://youtu.be/qKYzsAVqaOc?si=IcDmB1kkm__5WmC0',
+    //   'https://youtu.be/auRbPM9IndM?si=Z50AlE5RNxFVAJWn',
+    //   'https://youtu.be/e5PLy52bUWw?si=6NCzJ1IWbO4IOuhV',
+    //   'https://youtu.be/O2K9rBAgE0k?si=RP8bLDdxdv3SUrTd',
+    //   'https://youtu.be/oXxQmeurDUM?si=TvicyMbf6xPSOd8T',
+    // ];
+
+        Future<List<YouTubeVideo>> fetchVideosFromApi() async {
+          final List<YouTubeVideo> videoUrls = await fetchVideosOf();
+          return videoUrls;
+        }
 
     Future<void> _launchURL(String url) async {
         if (await canLaunchUrl(Uri.parse(url))) {
@@ -81,12 +84,31 @@ class MyHomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: ListView.builder(
-        itemCount: videoUrls.length,
-        itemBuilder: (context, index) {
-          return VideoCard(videoUrl: videoUrls[index], index: index);
-        },
-      ),
+        body:FutureBuilder<List<YouTubeVideo>>(
+          future: fetchVideosFromApi(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator(); // Display a loading indicator while data is being fetched
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              // Data has been successfully fetched
+              List<YouTubeVideo> videoUrls = snapshot.data!;
+              return ListView.builder(
+                itemCount: videoUrls.length,
+                itemBuilder: (context, index) {
+                return VideoCard(videoUrl: videoUrls[index].id, index: index, title: videoUrls[index].title);
+                },
+              );
+            }
+          },
+        ),
+      // body: ListView.builder(
+      //   itemCount: videoUrls.length,
+      //   itemBuilder: (context, index) {
+      //     return VideoCard(videoUrl: videoUrls[index], index: index);
+      //   },
+      // ),
      floatingActionButton: FloatingActionButton(
         onPressed: () {
           _launchURL('https://www.agricreations.com/'); // Replace with your desired URL
@@ -101,13 +123,21 @@ class MyHomePage extends StatelessWidget {
 class VideoCard extends StatelessWidget {
   final String videoUrl;
   final int index;
+  final String title;
+  // final String description;
 
-  const VideoCard({Key? key, required this.videoUrl, required this.index}) : super(key: key);
+
+  const VideoCard({Key? key, 
+  required this.videoUrl,
+  required this.index,
+  required this.title,
+  // required this.description
+
+   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final videoId = YoutubePlayer.convertUrlToId(videoUrl);
-
+    final videoId = YoutubePlayer.convertUrlToId("https://www.youtube.com/watch?v=$videoUrl");
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -116,11 +146,11 @@ class VideoCard extends StatelessWidget {
           children: [
             YoutubePlayer(
               controller: YoutubePlayerController(
-                initialVideoId: videoId ?? '',
+                initialVideoId: videoId ?? 'uGuJbpWsL6k&t=118s',
                 flags: YoutubePlayerFlags(
                   autoPlay: false,
                   mute: false,
-                  controlsVisibleAtStart: true, 
+                  controlsVisibleAtStart: false, 
                   hideThumbnail: false, 
                   showLiveFullscreenButton: true,
                   enableCaption: true,
@@ -130,7 +160,7 @@ class VideoCard extends StatelessWidget {
               showVideoProgressIndicator: true,
             ),
             ListTile(
-              title: Text('Video Title $index'),
+              title: Text('$title' ?? "Error"),
               leading:Image.network("https://www.agricreations.com/assets/img/logo.png",
               width: 40,
               height: 40,

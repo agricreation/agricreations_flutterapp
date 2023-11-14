@@ -1,16 +1,42 @@
-# agricreations_app
+# Project Name
 
-A new Flutter project.
+Agricreations app
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Introduction
+
+Here we can provide a customized way of videos
+
+## Features
+
+Features of our app
+
+- Fetch videos from the backend using an API
+- Display videos in a card view
+- [Contribute more features...]
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Provide instructions on how to set up and run your project locally. Include any prerequisites, installation steps, and configuration details.
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+# Clone the repository
+git clone https://github.com/agricreation/agricreations_flutterapp.git
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+# Change into the project directory
+cd agricreations_flutterapp
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Install dependencies
+flutter pub get
+
+# Run the project
+flutter run

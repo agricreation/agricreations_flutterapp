@@ -26,4 +26,27 @@ Future<void> fetchHkrAgriTechData() async {
 }
 
 
-// https://www.googleapis.com/youtube/v3/channels?part=statistics&id=$UCSjSmjY9cEI_ib-NrBElVXw&key=$AIzaSyDbEgadnqHQCSVitn2tsnQsY1HXsfsS0dM
+Future<List<YouTubeVideo>> fetchVideosOf() async {
+  final String apiUrl = "https://apis.agricreations.com";
+  final response = await http.get(Uri.parse(apiUrl));
+  if (response.statusCode == 200) {
+    List<YouTubeVideo> videos = [];
+    String data = response.body;
+    var jsonData = jsonDecode(data);
+     for (var videoData in jsonData) {
+        YouTubeVideo video = YouTubeVideo(
+          id:videoData['id']['videoId'],
+          title:videoData['snippet']['title'],
+          thumbnailUrl: videoData['snippet']['thumbnails']['high']['url'],
+          videoUrl:videoData['id']['videoId']
+        );
+        videos.add(video);
+        print("videodata ${videos}");
+      }
+      print("videosss $videos");
+    return videos;
+  } else {
+    print('Failed to load data: ${response.statusCode}');
+    return []; 
+  }
+}
