@@ -61,9 +61,48 @@ class MyHomePage extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
                 'Agri Creations',
                 style: TextStyle(color: Colors.white),
+              ),
+              Text("Cultivating Excellence in Web Development and Video Editing: Agricreations, Where Innovation Grows", style: TextStyle(
+                color: Colors.white
+              ),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () => _launchURL('https://www.facebook.com/moovendhan.agriculture/'),
+                    child: FaIcon(FontAwesomeIcons.facebook, color: Colors.white,),
+                  ),
+                   GestureDetector(
+                    onTap: () => _launchURL('https://www.instagram.com/moovendhan_agricreations/'),
+                    child: FaIcon(FontAwesomeIcons.instagram, color: Colors.white,),
+                  ),
+                    GestureDetector(
+                    onTap: () => _launchURL('https://api.whatsapp.com/send/?phone=%2B918300470783&text&type=phone_number&app_absent=0'),
+                    child: FaIcon(FontAwesomeIcons.whatsapp, color: Colors.white,),
+                  ),
+                    GestureDetector(
+                    onTap: () => _launchURL('https://www.linkedin.com/in/moovendhanv'),
+                    child: FaIcon(FontAwesomeIcons.linkedin, color: Colors.white,),
+                  ),
+                    GestureDetector(
+                    onTap: () => _launchURL('https://t.me/Moovendhanagri'),
+                    child: FaIcon(FontAwesomeIcons.telegram, color: Colors.white,),
+                  ),
+                    GestureDetector(
+                    onTap: () => _launchURL('https://bestappsintamil.agricreations.com/'),
+                    child: FaIcon(FontAwesomeIcons.blogger, color: Colors.white,),
+                  ),
+                ],
+              ),
+                ],
               ),
               decoration: BoxDecoration(
                 color: Colors.blue,
@@ -71,14 +110,16 @@ class MyHomePage extends StatelessWidget {
             ),
             ListTile(
               title: Text('Hkr agri techs'),
+              leading: FaIcon(FontAwesomeIcons.youtube, color: Colors.red,),
               onTap: () {
-                // Define actions for the first menu item
+                  _launchURL('https://www.youtube.com/@HkragritechsYt');
               },
             ),
             ListTile(
               title: Text('Best apps in Tamil'),
+              leading: FaIcon(FontAwesomeIcons.youtube, color: Colors.red,),
               onTap: () {
-                // Define actions for the second menu item
+                    _launchURL('https://www.youtube.com/@bestappsintamil');
               },
             ),
           ],
@@ -88,7 +129,7 @@ class MyHomePage extends StatelessWidget {
           future: fetchVideosFromApi(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(); // Display a loading indicator while data is being fetched
+              return CircularProgressIndicator(); 
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
@@ -103,12 +144,6 @@ class MyHomePage extends StatelessWidget {
             }
           },
         ),
-      // body: ListView.builder(
-      //   itemCount: videoUrls.length,
-      //   itemBuilder: (context, index) {
-      //     return VideoCard(videoUrl: videoUrls[index], index: index);
-      //   },
-      // ),
      floatingActionButton: FloatingActionButton(
         onPressed: () {
           _launchURL('https://www.agricreations.com/'); // Replace with your desired URL
@@ -125,7 +160,6 @@ class VideoCard extends StatelessWidget {
   final int index;
   final String title;
   // final String description;
-
 
   const VideoCard({Key? key, 
   required this.videoUrl,
@@ -165,7 +199,7 @@ class VideoCard extends StatelessWidget {
               width: 40,
               height: 40,
               ),
-              trailing: FaIcon(FontAwesomeIcons.youtube),
+              trailing: FaIcon(FontAwesomeIcons.youtube, color: Colors.red,),
             ),
           ],
         ),
