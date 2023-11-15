@@ -5,12 +5,14 @@ class YouTubeVideo {
   final String title; // Video title
   final String thumbnailUrl; // Video thumbnail URL
   final String videoUrl; // Video URL
+  final String channelLogo;
 
   YouTubeVideo({
     required this.id,
     required this.title,
     required this.thumbnailUrl,
     required this.videoUrl,
+    required this.channelLogo
   });
 }
 

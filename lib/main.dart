@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(secondary: Colors.white),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(secondary: const Color.fromARGB(255, 42, 42, 42)),
       ),
       home: const MyHomePage(title: 'Agri Creations'),
     );
@@ -29,15 +29,6 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    // final List<String> videoUrls = [
-    //   'https://youtu.be/qKYzsAVqaOc?si=IcDmB1kkm__5WmC0',
-    //   'https://youtu.be/auRbPM9IndM?si=Z50AlE5RNxFVAJWn',
-    //   'https://youtu.be/e5PLy52bUWw?si=6NCzJ1IWbO4IOuhV',
-    //   'https://youtu.be/O2K9rBAgE0k?si=RP8bLDdxdv3SUrTd',
-    //   'https://youtu.be/oXxQmeurDUM?si=TvicyMbf6xPSOd8T',
-    // ];
-
         Future<List<YouTubeVideo>> fetchVideosFromApi() async {
           final List<YouTubeVideo> videoUrls = await fetchVideosOf();
           return videoUrls;
@@ -52,6 +43,7 @@ class MyHomePage extends StatelessWidget {
       }
 
     return Scaffold(
+      backgroundColor: Colors.black54,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text("Agricreations"),
@@ -138,7 +130,7 @@ class MyHomePage extends StatelessWidget {
               return ListView.builder(
                 itemCount: videoUrls.length,
                 itemBuilder: (context, index) {
-                return VideoCard(videoUrl: videoUrls[index].id, index: index, title: videoUrls[index].title);
+                return VideoCard(videoUrl: videoUrls[index].id, index: index, title: videoUrls[index].title, thumbnail: videoUrls[index].thumbnailUrl, logo: videoUrls[index].channelLogo,);
                 },
               );
             }
@@ -159,48 +151,80 @@ class VideoCard extends StatelessWidget {
   final String videoUrl;
   final int index;
   final String title;
-  // final String description;
+  final String thumbnail;
+  final String logo;
 
   const VideoCard({Key? key, 
   required this.videoUrl,
   required this.index,
   required this.title,
-  // required this.description
+  required this.thumbnail,
+  required this.logo
 
    }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final videoId = YoutubePlayer.convertUrlToId("https://www.youtube.com/watch?v=$videoUrl");
+        Future<void> _launchURL(String url) async {
+        if (await canLaunchUrl(Uri.parse(url))) {
+          await launchUrl(Uri.parse(url));
+        } else {
+          throw 'Could not launch $url';
+        }
+      }
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
+        color: Colors.black,
         elevation: 4,
         child: Column(
           children: [
-            YoutubePlayer(
-              controller: YoutubePlayerController(
-                initialVideoId: videoId ?? 'uGuJbpWsL6k&t=118s',
-                flags: YoutubePlayerFlags(
-                  autoPlay: false,
-                  mute: false,
-                  controlsVisibleAtStart: false, 
-                  hideThumbnail: false, 
-                  showLiveFullscreenButton: true,
-                  enableCaption: true,
-                  isLive: false, //
-                ),
-              ),
-              showVideoProgressIndicator: true,
+            // YoutubePlayer(
+            //   controller: YoutubePlayerController(
+            //     initialVideoId: videoId ?? 'uGuJbpWsL6k&t=118s',
+            //     flags: YoutubePlayerFlags(
+            //       autoPlay: false,
+            //       mute: false,
+            //       controlsVisibleAtStart: false, 
+            //       hideThumbnail: false, 
+            //       showLiveFullscreenButton: true,
+            //       enableCaption: true,
+            //       isLive: false, //
+            //     ),
+            //   ),
+            //   showVideoProgressIndicator: true,
+            // ),
+            Container(
+              width: double.infinity,
+             
+              child: Image.network(thumbnail,
+              fit: BoxFit.cover,),
             ),
             ListTile(
-              title: Text('$title' ?? "Error"),
-              leading:Image.network("https://www.agricreations.com/assets/img/logo.png",
+              contentPadding: EdgeInsets.all(10),
+              title: Text('$title' ?? "Error", style: TextStyle(
+                color: Colors.white
+              ),),
+              leading:Image.network(logo,
               width: 40,
               height: 40,
               ),
-              trailing: FaIcon(FontAwesomeIcons.youtube, color: Colors.red,),
+              trailing: GestureDetector(
+                onTap: () =>  _launchURL('https://www.youtube.com/watch?v=$videoUrl'),
+                child: FaIcon(FontAwesomeIcons.youtube, color: Colors.red,),
+              ),
             ),
+            Container(
+              decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey.withOpacity(0.5), // Border color with reduced opacity
+                width: 2.0, // Border width
+              ),
+            ),
+          ),
+            )
           ],
         ),
       ),
