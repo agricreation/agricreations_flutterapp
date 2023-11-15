@@ -38,10 +38,16 @@ Future<List<YouTubeVideo>> fetchVideosOf() async {
           title:videoData['snippet']['title'],
           thumbnailUrl: videoData['snippet']['thumbnails']['high']['url'],
           videoUrl:videoData['id']['videoId'],
-          channelLogo: videoData['snippet']['channellogo']
+          channelLogo: videoData['snippet']['channellogo'],
+          videoType: videoData['snippet']['type'],
+          category: videoData['snippet']['category'],
+          islive: videoData['snippet']['islive'],
+          channelname: videoData['snippet']['channelTitle'],
+          channelId: videoData['snippet']['channelId'],
         );
         videos.add(video);
       }
+      print("mainapi $videos");
     return videos;
   } else {
     print('Failed to load data: ${response.statusCode}');
