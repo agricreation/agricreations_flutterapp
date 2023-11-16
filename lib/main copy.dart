@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show AppBar, BoxDecoration, BuildContext, Center, Color, ColorScheme, Colors, Column, Drawer, DrawerHeader, EdgeInsets, FloatingActionButton, Icon, Icons, ListTile, ListView, MainAxisAlignment, MaterialApp, Padding, Scaffold, State, StatefulWidget, StatelessWidget, Text, TextStyle, Theme, ThemeData, Widget, runApp;
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 void main() {
@@ -30,12 +30,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  void _incrementCounter() {
-    setState(() {
-    
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     
@@ -53,22 +47,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              child: Text('Agri Creations', style: TextStyle(
-                color: Colors.white
-              ),),
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
+              child: Text('Agri Creations', style: TextStyle(
+                color: Colors.white
+              ),),
             ),
             ListTile(
-              title: Text('Hkr agri techs'),
+              title: const Text('Hkr agri techs'),
               onTap: () {
                
               },
             ),
             ListTile(
-              title: Text('Best apps in tamil'),
+              title: const Text('Best apps in tamil'),
               onTap: () {
                
               },
@@ -88,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: YoutubePlayer(
               controller: YoutubePlayerController(
                  initialVideoId: YoutubePlayer.convertUrlToId(videoUrls[index]) ?? '',
-                  flags: YoutubePlayerFlags(
+                  flags: const YoutubePlayerFlags(
                 autoPlay: false,
                   mute: false,
                 ),
@@ -102,7 +96,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed:(){
+          
+        },
         child: const Icon(Icons.email),
       ),
     );

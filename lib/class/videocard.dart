@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class YouTubeVideo {
   final String id; // Video ID
