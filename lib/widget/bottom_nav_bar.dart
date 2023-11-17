@@ -1,4 +1,6 @@
+import 'package:agricreations_app/const/config.dart';
 import 'package:agricreations_app/getx_controller/data_controller.dart';
+import 'package:agricreations_app/getx_controller/home_controller.dart';
 import 'package:agricreations_app/screens/catogries.dart';
 import 'package:agricreations_app/widget/home_page.dart';
 import 'package:flutter/material.dart';
@@ -14,37 +16,41 @@ class BottomNavigationbar extends StatelessWidget {
     final DataController dataController = Get.put(DataController());
     List catogries = dataController.listOfCatogries;
 
-    return BottomNavigationBar(
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.short_text),
-          label: 'catogries',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.people),
-          label: 'Profile',
-        ),
-      ],
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            Get.to(() => const MyHomePage(title: 'Techey guys',));
-            break;
-          case 1:
-            Get.to(() => Catogries(catogriesList: catogries,));
-            break;
-          case 2:
-            Get.to(() => Catogries(catogriesList: catogries,));
-            break;
-        }
-      },
-      currentIndex: 2,
-      selectedItemColor: Colors.blue,
-      selectedLabelStyle: TextStyle(color: Colors.blue),
-    );
+    return Obx(() {
+      int homeControllerint = Get.find<HomeController>().currentIndex.value;
+
+      return BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.short_text),
+            label: 'Categories',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'Profile',
+          ),
+        ],
+        onTap: (index) {
+           Get.find<HomeController>().changePage(index);
+          switch (index) {
+            case 0:
+              Get.to(() => const MyHomePage(title: 'Techy guys'));
+              break;
+            case 1:
+              Get.to(() => Catogries(catogriesList: catogries));
+              break;
+            case 2:
+               Get.to(() => Catogries(catogriesList: catogries));
+              break;
+          }
+        },
+        currentIndex: homeControllerint,
+        selectedItemColor: kmainColor,
+      );
+    });
   }
 }

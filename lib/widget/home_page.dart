@@ -1,8 +1,10 @@
+import 'package:agricreations_app/const/config.dart';
 import 'package:agricreations_app/getx_controller/data_controller.dart';
 import 'package:agricreations_app/getx_controller/drawer_controller.dart';
 import 'package:agricreations_app/screens/catogries.dart';
 import 'package:agricreations_app/widget/bottom_nav_bar.dart';
 import 'package:agricreations_app/widget/video_card.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -33,31 +35,45 @@ class MyHomePage extends StatelessWidget {
       backgroundColor: Colors.black26,
       bottomNavigationBar: const BottomNavigationbar(),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text("Techey Guys"),
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.search),
-        //     onPressed: () {},
-        //   ),
-        // ],
+       flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: kgradientColors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
+        title: CachedNetworkImage(
+                  imageUrl:
+                      'https://blogger.googleusercontent.com/img/a/AVvXsEiUcu2nKBfztsSdoCS9uod4cV9ObHs2twKm_eaOTWfZwwwBw3qLFr29_RQ6PHChEyfU7X-Wkd1qjNDeOdvfudyDuG72S0hBNkJQWVyn_JQB6tCryhs9sLRV0oodcml-Wm1Hq7suw9Qf9mKlD7Ew7XNp-jIjfjCOJYnwTESqbKGZWMzyotGW9eBXhH7Faw=s150',
+                  width: 50.0, // Adjust width as needed
+                  height: 50.0, // Adjust height as needed
+                  fit: BoxFit.cover, // Adjust BoxFit as needed
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.blue,
+               decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                colors: kgradientColors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
+            ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Agri Creations',
-                    style: TextStyle(color: Colors.white),
+                  const Image(image: NetworkImage('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjFz1aoq0RnlkDHO6OqApeAWXICc9xFcyqUZndGSfTyzPPDPksfhsYK7s4vEoYZ_Xc2Imeh9yEXbg09WAwEpH41KXANe8wbLqaQFyhMqkVH9_KDvhZ-VkUxzB5ppvwyOh_vEUDkLbPBwrYOgyMC7x9-aN5kF-Q1HB3cOugW5PBtrjXfHQIN15w5cz09LPt6/s16000/T-G%20logos%20only.png',
                   ),
+                  width: 50,
+                  height: 50,),
                   const Text(
                     "Cultivating Excellence in Web Development and Video Editing: Agricreations, Where Innovation Grows",
                     style: TextStyle(color: Colors.white),
