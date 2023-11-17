@@ -1,4 +1,5 @@
 import 'package:agricreations_app/const/config.dart';
+import 'package:agricreations_app/const/config.dart';
 import 'package:agricreations_app/getx_controller/data_controller.dart';
 import 'package:agricreations_app/getx_controller/drawer_controller.dart';
 import 'package:agricreations_app/screens/catogries.dart';
@@ -30,50 +31,51 @@ class MyHomePage extends StatelessWidget {
 
     final NavbarController drawerController = Get.put(NavbarController());
 
-    drawerController.facebookUrl;
+    drawerController.kUrl;
     return Scaffold(
       backgroundColor: Colors.black26,
       bottomNavigationBar: const BottomNavigationbar(),
       appBar: AppBar(
-       flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: kgradientColors,
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: kgradientColors,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
+        ),
         title: CachedNetworkImage(
-                  imageUrl:
-                      'https://blogger.googleusercontent.com/img/a/AVvXsEiUcu2nKBfztsSdoCS9uod4cV9ObHs2twKm_eaOTWfZwwwBw3qLFr29_RQ6PHChEyfU7X-Wkd1qjNDeOdvfudyDuG72S0hBNkJQWVyn_JQB6tCryhs9sLRV0oodcml-Wm1Hq7suw9Qf9mKlD7Ew7XNp-jIjfjCOJYnwTESqbKGZWMzyotGW9eBXhH7Faw=s150',
-                  width: 50.0, // Adjust width as needed
-                  height: 50.0, // Adjust height as needed
-                  fit: BoxFit.cover, // Adjust BoxFit as needed
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                ),
+          imageUrl: ksubLogo,
+          fit: BoxFit.cover, // Adjust BoxFit as needed
+          // placeholder: (context, url) => CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-               decoration: const BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                colors: kgradientColors,
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                  colors: kgradientColors,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
-            ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Image(image: NetworkImage('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjFz1aoq0RnlkDHO6OqApeAWXICc9xFcyqUZndGSfTyzPPDPksfhsYK7s4vEoYZ_Xc2Imeh9yEXbg09WAwEpH41KXANe8wbLqaQFyhMqkVH9_KDvhZ-VkUxzB5ppvwyOh_vEUDkLbPBwrYOgyMC7x9-aN5kF-Q1HB3cOugW5PBtrjXfHQIN15w5cz09LPt6/s16000/T-G%20logos%20only.png',
+                 CachedNetworkImage(
+                    imageUrl: kmainLogo,
+                    placeholder: (context, url) => const CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(kmainColor),
+                    ),
+                    width: 50,
+                    height: 50,
                   ),
-                  width: 50,
-                  height: 50,),
                   const Text(
                     "Cultivating Excellence in Web Development and Video Editing: Agricreations, Where Innovation Grows",
                     style: TextStyle(color: Colors.white),
@@ -154,9 +156,9 @@ class MyHomePage extends StatelessWidget {
                 launchURL('https://www.youtube.com/@bestappsintamil');
               },
             ),
-             Container(
+            Container(
               color: const Color.fromARGB(255, 152, 209, 255),
-               child: ListTile(
+              child: ListTile(
                 textColor: Colors.white,
                 title: const Text('Catogries'),
                 leading: const FaIcon(
@@ -164,62 +166,64 @@ class MyHomePage extends StatelessWidget {
                   color: Color.fromARGB(255, 252, 253, 255),
                 ),
                 onTap: () {
-                      Get.to(() => Catogries(
+                  Get.to(() => Catogries(
                         catogriesList: catogries,
                       ));
                 },
-                         ),
-             ),
+              ),
+            ),
           ],
         ),
       ),
-      body: Obx(() {
-        return dataController.dataList.isEmpty
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      'Your Title Here',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+      body: Obx(
+        () {
+          return dataController.dataList.isEmpty
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Updates From agricreations',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: dataController.dataList.length,
-                      itemBuilder: (context, index) {
-                        return VideoCard(
-                          videoUrl: dataController.dataList[index].id,
-                          index: index,
-                          title: dataController.dataList[index].title,
-                          thumbnail:
-                              dataController.dataList[index].thumbnailUrl,
-                          logo: dataController.dataList[index].channelLogo,
-                          videoType: dataController.dataList[index].videoType,
-                          categories: dataController.dataList[index].category,
-                          islive: dataController.dataList[index].islive,
-                          channelTitle:
-                              dataController.dataList[index].channelname,
-                          channelId: dataController.dataList[index].channelId,
-                        );
-                      },
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: dataController.dataList.length,
+                        itemBuilder: (context, index) {
+                          return VideoCard(
+                            videoUrl: dataController.dataList[index].id,
+                            index: index,
+                            title: dataController.dataList[index].title,
+                            thumbnail:
+                                dataController.dataList[index].thumbnailUrl,
+                            logo: dataController.dataList[index].channelLogo,
+                            videoType: dataController.dataList[index].videoType,
+                            categories: dataController.dataList[index].category,
+                            islive: dataController.dataList[index].islive,
+                            channelTitle:
+                                dataController.dataList[index].channelname,
+                            channelId: dataController.dataList[index].channelId,
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              );
-      },
+                  ],
+                );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Get.to(() => VideoScreen(videoUrl: "uGuJbpWsL6k&t=118s"));
-          launchURL('https://www.agricreations.com/'); // Replace with your desired URL
+          launchURL(
+              'https://www.agricreations.com/'); // Replace with your desired URL
         },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.web_stories_outlined),

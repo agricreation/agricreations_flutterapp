@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class NavbarController extends GetxController {
-  var facebookUrl = 'https://www.facebook.com/moovendhan.agriculture/'.obs;
+  var kUrl = 'https://www.facebook.com/moovendhan.agriculture/'.obs;
   var instagramUrl = 'https://www.instagram.com/moovendhan_agricreations/'.obs;
   var whatsappUrl =
       'https://api.whatsapp.com/send/?phone=%2B918300470783&text&type=phone_number&app_absent=0'

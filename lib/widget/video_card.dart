@@ -1,5 +1,5 @@
-
 import 'package:agricreations_app/screens/VideoScreen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -63,9 +63,16 @@ class VideoCard extends StatelessWidget {
               },
               child: SizedBox(
                 width: double.infinity,
-                child: Image.network(
-                  thumbnail,
+                child: CachedNetworkImage(
+                  imageUrl: thumbnail,
                   fit: BoxFit.cover,
+                  placeholder: (context, url) => const Center(
+                    child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: CircularProgressIndicator()),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),

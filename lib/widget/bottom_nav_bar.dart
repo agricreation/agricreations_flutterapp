@@ -13,6 +13,7 @@ class BottomNavigationbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeController homeController = Get.put(HomeController());
     final DataController dataController = Get.put(DataController());
     List catogries = dataController.listOfCatogries;
 
