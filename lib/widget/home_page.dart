@@ -1,13 +1,12 @@
 import 'package:agricreations_app/const/config.dart';
-import 'package:agricreations_app/const/config.dart';
 import 'package:agricreations_app/getx_controller/data_controller.dart';
 import 'package:agricreations_app/getx_controller/drawer_controller.dart';
-import 'package:agricreations_app/screens/catogries.dart';
+import 'package:agricreations_app/widget/app_drawer.dart';
+import 'package:agricreations_app/widget/app_drawer_list.dart';
 import 'package:agricreations_app/widget/bottom_nav_bar.dart';
 import 'package:agricreations_app/widget/video_card.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 
@@ -27,6 +26,7 @@ class MyHomePage extends StatelessWidget {
 
     final DataController dataController = Get.put(DataController());
     dataController.fetchDataFromApi();
+
     List catogries = dataController.listOfCatogries;
 
     final NavbarController drawerController = Get.put(NavbarController());
@@ -55,123 +55,18 @@ class MyHomePage extends StatelessWidget {
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: <Widget>[
+          children: const <Widget>[
             DrawerHeader(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: kgradientColors,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                 CachedNetworkImage(
-                    imageUrl: kmainLogo,
-                    placeholder: (context, url) => const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(kmainColor),
-                    ),
-                    width: 50,
-                    height: 50,
-                  ),
-                  const Text(
-                    "Cultivating Excellence in Web Development and Video Editing: Agricreations, Where Innovation Grows",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () => launchURL(
-                            'https://www.facebook.com/moovendhan.agriculture/'),
-                        child: const FaIcon(
-                          FontAwesomeIcons.facebook,
-                          color: Colors.white,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => launchURL(
-                            'https://www.instagram.com/moovendhan_agricreations/'),
-                        child: const FaIcon(
-                          FontAwesomeIcons.instagram,
-                          color: Colors.white,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => launchURL(
-                            'https://api.whatsapp.com/send/?phone=%2B918300470783&text&type=phone_number&app_absent=0'),
-                        child: const FaIcon(
-                          FontAwesomeIcons.whatsapp,
-                          color: Colors.white,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => launchURL(
-                            'https://www.linkedin.com/in/moovendhanv'),
-                        child: const FaIcon(
-                          FontAwesomeIcons.linkedin,
-                          color: Colors.white,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => launchURL('https://t.me/Moovendhanagri'),
-                        child: const FaIcon(
-                          FontAwesomeIcons.telegram,
-                          color: Colors.white,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => launchURL(
-                            'https://bestappsintamil.agricreations.com/'),
-                        child: const FaIcon(
-                          FontAwesomeIcons.blogger,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              child: AppDrawer(),
             ),
-            ListTile(
-              title: const Text('Hkr agri techs'),
-              leading: const FaIcon(
-                FontAwesomeIcons.youtube,
-                color: Colors.red,
-              ),
-              onTap: () {
-                launchURL('https://www.youtube.com/@HkragritechsYt');
-              },
-            ),
-            ListTile(
-              title: const Text('Best apps in Tamil'),
-              leading: const FaIcon(
-                FontAwesomeIcons.youtube,
-                color: Colors.red,
-              ),
-              onTap: () {
-                launchURL('https://www.youtube.com/@bestappsintamil');
-              },
-            ),
-            Container(
-              color: const Color.fromARGB(255, 152, 209, 255),
-              child: ListTile(
-                textColor: Colors.white,
-                title: const Text('Catogries'),
-                leading: const FaIcon(
-                  FontAwesomeIcons.list,
-                  color: Color.fromARGB(255, 252, 253, 255),
-                ),
-                onTap: () {
-                  Get.to(() => Catogries(
-                        catogriesList: catogries,
-                      ));
-                },
-              ),
-            ),
+            AppDrawerList()
           ],
         ),
       ),

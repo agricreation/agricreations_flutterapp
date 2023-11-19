@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:agricreations_app/getx_controller/data_controller.dart';
 import 'package:agricreations_app/widget/bottom_nav_bar.dart';
 import 'package:agricreations_app/widget/video_card.dart';
