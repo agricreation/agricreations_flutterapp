@@ -7,24 +7,17 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoScreen extends StatelessWidget {
-  final String videoUrl;
-  final String logo;
-  final String text;
-  final String channelname;
-  final String channelId;
   final shouldHideAppBar = true;
+  final int index;
 
   const VideoScreen({
     Key? key,
-    required this.videoUrl,
-    required this.logo,
-    required this.text,
-    required this.channelname,
-    required this.channelId,
+    required this.index,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    
     Future<void> launchURL(String url) async {
       if (await canLaunchUrl(Uri.parse(url))) {
         await launchUrl(Uri.parse(url));
@@ -33,11 +26,11 @@ class VideoScreen extends StatelessWidget {
       }
     }
 
-    final videoId = YoutubePlayer.convertUrlToId(
-        "https://www.youtube.com/watch?v=$videoUrl");
     final DataController dataController = Get.put(DataController());
     dataController.fetchDataFromApi();
 
+    final indexForVideo = index;
+        
     return Scaffold(
       bottomNavigationBar: const BottomNavigationbar(),
       appBar: shouldHideAppBar
@@ -50,7 +43,7 @@ class VideoScreen extends StatelessWidget {
           children: [
             YoutubePlayer(
               controller: YoutubePlayerController(
-                initialVideoId: videoId ?? 'uGuJbpWsL6k&t=118s',
+                initialVideoId: dataController.dataList[indexForVideo].id ?? 'uGuJbpWsL6k&t=118s',
                 flags: const YoutubePlayerFlags(
                   autoPlay: false,
                   mute: false,
@@ -65,7 +58,7 @@ class VideoScreen extends StatelessWidget {
             ),
             ListTile(
               contentPadding: const EdgeInsets.all(10),
-              title: Text(text),
+              title: Text(dataController.dataList[indexForVideo].title),
             ),
             Container(
               decoration: BoxDecoration(
@@ -84,12 +77,12 @@ class VideoScreen extends StatelessWidget {
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
                 leading: Image.network(
-                  logo,
+                  dataController.dataList[indexForVideo].channelLogo,
                   width: 50,
                   height: 50,
                 ),
                 title: Text(
-                  channelname.toUpperCase(),
+                  dataController.dataList[indexForVideo].channelname.toUpperCase(),
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -121,7 +114,7 @@ class VideoScreen extends StatelessWidget {
                         ),
                         onPressed: () {
                           launchURL(
-                              'https://www.youtube.com/channel/$channelId?sub_confirmation=1');
+                              'https://www.youtube.com/channel/${dataController.dataList[indexForVideo].channelId}?sub_confirmation=1');
                         },
                         child: const Text('Subscribe'),
                       ),

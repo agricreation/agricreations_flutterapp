@@ -1,3 +1,4 @@
+import 'package:agricreations_app/getx_controller/data_controller.dart';
 import 'package:agricreations_app/screens/VideoScreen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,9 @@ class VideoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+     DataController dataController = Get.find<DataController>();
+
     Future<void> launchURL(String url) async {
       if (await canLaunchUrl(Uri.parse(url))) {
         await launchUrl(Uri.parse(url));
@@ -52,11 +56,7 @@ class VideoCard extends StatelessWidget {
               onTap: () {
                 Get.to(
                     () => VideoScreen(
-                          videoUrl: videoUrl,
-                          logo: logo,
-                          text: title,
-                          channelname: channelTitle,
-                          channelId: channelId,
+                          index : index,
                         ),
                     transition: Transition.downToUp,
                     duration: const Duration(milliseconds: 500));

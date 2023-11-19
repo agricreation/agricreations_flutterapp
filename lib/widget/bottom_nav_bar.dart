@@ -2,6 +2,7 @@ import 'package:agricreations_app/const/config.dart';
 import 'package:agricreations_app/getx_controller/data_controller.dart';
 import 'package:agricreations_app/getx_controller/home_controller.dart';
 import 'package:agricreations_app/screens/catogries.dart';
+import 'package:agricreations_app/screens/profile.dart';
 import 'package:agricreations_app/widget/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,7 +46,7 @@ class BottomNavigationbar extends StatelessWidget {
               Get.to(() => Catogries(catogriesList: catogries));
               break;
             case 2:
-               Get.to(() => Catogries(catogriesList: catogries));
+               Get.to(() => ProfilePage(texts: "Profiles",));
               break;
           }
         },
