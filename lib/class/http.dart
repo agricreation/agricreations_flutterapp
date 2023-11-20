@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../class/videocard.dart';
 
 Future<String?> getVideoDescription(String videoId) async {
-  const apiKey = '';
+  const apiKey = 'AIzaSyBG7YBeYmcINh0XGBJ52IFOHHfse9cXFrg';
   final url =
       'https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails&id=$videoId&key=$apiKey';
 

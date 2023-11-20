@@ -1,6 +1,7 @@
 import 'package:agricreations_app/const/config.dart';
 import 'package:agricreations_app/getx_controller/data_controller.dart';
 import 'package:agricreations_app/getx_controller/drawer_controller.dart';
+import 'package:agricreations_app/screens/catogries_video_listing.dart';
 import 'package:agricreations_app/widget/app_drawer.dart';
 import 'package:agricreations_app/widget/app_drawer_list.dart';
 import 'package:agricreations_app/widget/bottom_nav_bar.dart';
@@ -77,16 +78,7 @@ class MyHomePage extends StatelessWidget {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text(
-                        'Updates From agricreations',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                    ),
+                    const CatogriesVideoListing(),
                     Expanded(
                       child: ListView.builder(
                         itemCount: dataController.dataList.length,

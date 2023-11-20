@@ -1,8 +1,6 @@
 import 'package:agricreations_app/class/http.dart';
 import 'package:agricreations_app/getx_controller/data_controller.dart';
 import 'package:agricreations_app/getx_controller/videoplaying_screen_controller.dart';
-import 'package:agricreations_app/widget/bottom_nav_bar.dart';
-// import 'package:agricreations_app/widget/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -36,7 +34,7 @@ class VideoScreen extends StatelessWidget {
     bool isDescriptionFetched = false;
 
     return Scaffold(
-      bottomNavigationBar: const BottomNavigationbar(),
+      // bottomNavigationBar: const BottomNavigationbar(),
       appBar: shouldHideAppBar
           ? null
           : AppBar(
@@ -124,9 +122,8 @@ class VideoScreen extends StatelessWidget {
                                 textStyle: const TextStyle(fontSize: 15),
                               ),
                               onPressed: () {
-                                videoPlayingController.vidoePlayingIndex = 3;
-                                // launchURL(
-                                //     'https://www.youtube.com/channel/${dataController.dataList[indexForVideo].channelId}?sub_confirmation=1');
+                                launchURL(
+                                    'https://www.youtube.com/channel/${dataController.dataList[indexForVideo].channelId}?sub_confirmation=1');
                               },
                               child: const Text('Subscribe'),
                             ),
