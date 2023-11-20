@@ -34,8 +34,7 @@ class VideoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-     DataController dataController = Get.find<DataController>();
+    DataController dataController = Get.find<DataController>();
 
     Future<void> launchURL(String url) async {
       if (await canLaunchUrl(Uri.parse(url))) {
@@ -56,10 +55,10 @@ class VideoCard extends StatelessWidget {
               onTap: () {
                 Get.to(
                     () => VideoScreen(
-                          index : index,
+                          index: index,
                         ),
                     transition: Transition.downToUp,
-                    duration: const Duration(milliseconds: 500));
+                    duration: const Duration(milliseconds: 700));
               },
               child: SizedBox(
                 width: double.infinity,
@@ -68,9 +67,9 @@ class VideoCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   placeholder: (context, url) => const Center(
                     child: SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: CircularProgressIndicator()),
+                        width: 100,
+                        height: 100,
+                        child: CircularProgressIndicator()),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),

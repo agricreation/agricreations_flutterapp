@@ -7,8 +7,8 @@ import 'package:agricreations_app/widget/bottom_nav_bar.dart';
 import 'package:agricreations_app/widget/video_card.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -26,8 +26,6 @@ class MyHomePage extends StatelessWidget {
 
     final DataController dataController = Get.put(DataController());
     dataController.fetchDataFromApi();
-
-    List catogries = dataController.listOfCatogries;
 
     final NavbarController drawerController = Get.put(NavbarController());
 
@@ -93,20 +91,27 @@ class MyHomePage extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: dataController.dataList.length,
                         itemBuilder: (context, index) {
-                          return VideoCard(
-                            videoUrl: dataController.dataList[index].id,
-                            index: index,
-                            title: dataController.dataList[index].title,
-                            thumbnail:
-                                dataController.dataList[index].thumbnailUrl,
-                            logo: dataController.dataList[index].channelLogo,
-                            videoType: dataController.dataList[index].videoType,
-                            categories: dataController.dataList[index].category,
-                            islive: dataController.dataList[index].islive,
-                            channelTitle:
-                                dataController.dataList[index].channelname,
-                            channelId: dataController.dataList[index].channelId,
-                          );
+                          if (dataController.dataList[index].islive == "1") {
+                            return VideoCard(
+                              videoUrl: dataController.dataList[index].id,
+                              index: index,
+                              title: dataController.dataList[index].title,
+                              thumbnail:
+                                  dataController.dataList[index].thumbnailUrl,
+                              logo: dataController.dataList[index].channelLogo,
+                              videoType:
+                                  dataController.dataList[index].videoType,
+                              categories:
+                                  dataController.dataList[index].category,
+                              islive: dataController.dataList[index].islive,
+                              channelTitle:
+                                  dataController.dataList[index].channelname,
+                              channelId:
+                                  dataController.dataList[index].channelId,
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
                         },
                       ),
                     ),

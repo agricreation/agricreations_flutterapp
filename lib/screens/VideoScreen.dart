@@ -1,3 +1,4 @@
+import 'package:agricreations_app/class/http.dart';
 import 'package:agricreations_app/getx_controller/data_controller.dart';
 import 'package:agricreations_app/getx_controller/videoplaying_screen_controller.dart';
 import 'package:agricreations_app/widget/bottom_nav_bar.dart';
@@ -32,6 +33,8 @@ class VideoScreen extends StatelessWidget {
 
     videoPlayingController.vidoePlayingIndex = index;
 
+    bool isDescriptionFetched = false;
+
     return Scaffold(
       bottomNavigationBar: const BottomNavigationbar(),
       appBar: shouldHideAppBar
@@ -45,127 +48,159 @@ class VideoScreen extends StatelessWidget {
             final indexForVideo = videoPlayingController.vidoePlayingIndex;
             final videoIds = YoutubePlayer.convertUrlToId(
                 "https://www.youtube.com/watch?v=${dataController.dataList[indexForVideo].id}");
-            return Column(
-              children: [
-                YoutubePlayer(
-                  controller: YoutubePlayerController(
-                    initialVideoId: videoIds ?? "",
-                    flags: const YoutubePlayerFlags(
-                      autoPlay: true,
-                      mute: false,
-                      controlsVisibleAtStart: false,
-                      hideThumbnail: false,
-                      showLiveFullscreenButton: true,
-                      enableCaption: true,
-                      isLive: false,
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  YoutubePlayer(
+                    controller: YoutubePlayerController(
+                      initialVideoId: videoIds ?? "",
+                      flags: const YoutubePlayerFlags(
+                        autoPlay: true,
+                        mute: false,
+                        controlsVisibleAtStart: false,
+                        hideThumbnail: false,
+                        showLiveFullscreenButton: true,
+                        enableCaption: true,
+                        isLive: false,
+                      ),
+                    ),
+                    showVideoProgressIndicator: true,
+                  ),
+                  ListTile(
+                    contentPadding: const EdgeInsets.all(10),
+                    title: Text(dataController.dataList[indexForVideo].title),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey.withOpacity(0.5),
+                          width: 1.0,
+                        ),
+                        top: BorderSide(
+                          color: Colors.grey.withOpacity(0.5),
+                          width: 1.0,
+                        ),
+                      ),
+                    ),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 0),
+                      leading: Image.network(
+                        dataController.dataList[indexForVideo].channelLogo,
+                        width: 50,
+                        height: 50,
+                      ),
+                      title: Text(
+                        dataController.dataList[indexForVideo].channelname
+                            .toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      trailing: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned.fill(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: <Color>[
+                                      Colors.transparent,
+                                      Colors.transparent,
+                                      Colors.transparent,
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.red,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 0),
+                                textStyle: const TextStyle(fontSize: 15),
+                              ),
+                              onPressed: () {
+                                videoPlayingController.vidoePlayingIndex = 3;
+                                // launchURL(
+                                //     'https://www.youtube.com/channel/${dataController.dataList[indexForVideo].channelId}?sub_confirmation=1');
+                              },
+                              child: const Text('Subscribe'),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                  showVideoProgressIndicator: true,
-                ),
-                ListTile(
-                  contentPadding: const EdgeInsets.all(10),
-                  title: Text(dataController.dataList[indexForVideo].title),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey.withOpacity(0.5),
-                        width: 1.0,
+                  Column(
+                    children: [
+                      const Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 22),
+                          child: Text(
+                            "Description",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
-                      top: BorderSide(
-                        color: Colors.grey.withOpacity(0.5),
-                        width: 1.0,
-                      ),
-                    ),
-                  ),
-                  child: ListTile(
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-                    leading: Image.network(
-                      dataController.dataList[indexForVideo].channelLogo,
-                      width: 50,
-                      height: 50,
-                    ),
-                    title: Text(
-                      dataController.dataList[indexForVideo].channelname
-                          .toUpperCase(),
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    trailing: ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: Stack(
-                        children: <Widget>[
-                          Positioned.fill(
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: <Color>[
-                                    Colors.transparent,
-                                    Colors.transparent,
-                                    Colors.transparent,
+                      SizedBox(
+                        height: 400,
+                        width: double.infinity,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: () async {
+                                // avoid to send api multiple times
+                                if (!isDescriptionFetched) {
+                                  dataController
+                                          .dataList[indexForVideo].description =
+                                      await getVideoDescription(dataController
+                                              .dataList[indexForVideo].id) ??
+                                          "Fetching description failed";
+                                  isDescriptionFetched = true;
+                                  //manually refreshing
+                                  dataController.dataList.refresh();
+                                }
+                              },
+                              child: Container(
+                                color: Colors.grey.shade100,
+                                child: ListView(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        dataController.dataList[indexForVideo]
+                                            .description,
+                                      ),
+                                    ),
+                                    const Align(
+                                      alignment: Alignment.topRight,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text("load More"),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.red,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 0),
-                              textStyle: const TextStyle(fontSize: 15),
-                            ),
-                            onPressed: () {
-                              videoPlayingController.vidoePlayingIndex = 3;
-                              // launchURL(
-                              //     'https://www.youtube.com/channel/${dataController.dataList[indexForVideo].channelId}?sub_confirmation=1');
-                            },
-                            child: const Text('Subscribe'),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-                // Container(
-                //   padding:
-                //       const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
-                //   child: const Align(
-                //     alignment: Alignment.topLeft,
-                //     child: Text(
-                //       "Videos That you like",
-                //       style: TextStyle(
-                //         fontSize: 20,
-                //         color: Colors.black87,
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // Expanded(
-                //   child: ListView.builder(
-                //     itemCount: dataController.dataList.length,
-                //     itemBuilder: (context, index) {
-                //       return VideoCard(
-                //         videoUrl: dataController.dataList[index].id,
-                //         index: index,
-                //         title: dataController.dataList[index].title,
-                //         thumbnail: dataController.dataList[index].thumbnailUrl,
-                //         logo: dataController.dataList[index].channelLogo,
-                //         videoType: dataController.dataList[index].videoType,
-                //         categories: dataController.dataList[index].category,
-                //         islive: dataController.dataList[index].islive,
-                //         channelTitle:
-                //             dataController.dataList[index].channelname,
-                //         channelId: dataController.dataList[index].channelId,
-                //       );
-                //     },
-                //   ),
-                // ),
-              ],
+                ],
+              ),
             );
           },
         ),
