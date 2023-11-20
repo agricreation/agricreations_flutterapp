@@ -1,16 +1,13 @@
 import 'package:get/get.dart';
-import '../class/http.dart';
-import '../class/videocard.dart';
 
 class VideoPlaying extends GetxController {
-  RxList<YouTubeVideo> videoPlaying = <YouTubeVideo>[].obs;
+  int vidoePlayingIndex = 0.obs.value;
+  // void createAndSetVideo() {
+  //   // Create a new instance of YouTubeVideo
+  //   // YouTubeVideo newVideo = YouTubeVideo();
 
-  void createAndSetVideo() {
-    // Create a new instance of YouTubeVideo
-    // YouTubeVideo newVideo = YouTubeVideo();
-
-    // Clear existing items and add the new video
-    videoPlaying.clear();
-    // videoPlaying.add(newVideo);
-  }
+  //   // Clear existing items and add the new video
+  //   videoPlaying.clear();
+  //   // videoPlaying.add(newVideo);
+  // }
 }

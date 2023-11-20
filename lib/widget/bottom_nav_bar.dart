@@ -37,7 +37,7 @@ class BottomNavigationbar extends StatelessWidget {
           ),
         ],
         onTap: (index) {
-           Get.find<HomeController>().changePage(index);
+          Get.find<HomeController>().changePage(index);
           switch (index) {
             case 0:
               Get.to(() => const MyHomePage(title: 'Techy guys'));
@@ -46,7 +46,9 @@ class BottomNavigationbar extends StatelessWidget {
               Get.to(() => Catogries(catogriesList: catogries));
               break;
             case 2:
-               Get.to(() => ProfilePage(texts: "Profiles",));
+              Get.to(() => ProfilePage(
+                    texts: "Profiles",
+                  ));
               break;
           }
         },
