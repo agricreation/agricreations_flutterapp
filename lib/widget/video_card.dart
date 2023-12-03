@@ -45,7 +45,7 @@ class VideoCard extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Card(
         color: Colors.black,
         elevation: 4,

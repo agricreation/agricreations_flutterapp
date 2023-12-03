@@ -25,10 +25,10 @@ class CatogriesVideoListing extends StatelessWidget {
     );
   }
 }
-
 Widget catogriesListOnTop(String text) {
   return Container(
-    margin: const EdgeInsets.only(right: 10), // Adjust as needed
+    margin: const EdgeInsets.only(
+        right: 10, top: 10, bottom: 10), // Adjust as needed
     child: IntrinsicWidth(
       child: SizedBox(
         height: 30,
