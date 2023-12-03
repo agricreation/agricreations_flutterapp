@@ -23,14 +23,17 @@ Future<String?> getVideoDescription(String videoId) async {
 }
 
 Future<List<YouTubeVideo>> fetchVideosOf() async {
-  const String apiUrl = "https://apis.agricreations.com";
+  const String apiUrl = "https://youtubeapi.agricreations.com";
   final response = await http.get(Uri.parse(apiUrl));
   if (response.statusCode == 200) {
     List<YouTubeVideo> videos = [];
     String data = response.body;
     var jsonData = jsonDecode(data);
     for (var videoData in jsonData) {
-      YouTubeVideo video = YouTubeVideo(
+      if(videoData['snippet']['islive'] == "0"){
+        
+      }else{
+         YouTubeVideo video = YouTubeVideo(
         id: videoData['id']['videoId'],
         title: videoData['snippet']['title'],
         description: videoData['snippet']['description'],
@@ -44,6 +47,7 @@ Future<List<YouTubeVideo>> fetchVideosOf() async {
         channelId: videoData['snippet']['channelId'],
       );
       videos.add(video);
+      }
     }
     return videos;
   } else {
